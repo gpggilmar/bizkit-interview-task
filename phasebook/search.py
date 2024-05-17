@@ -31,7 +31,7 @@ def search_users(args):
         elif(key == 'occupation'): 
             getFilteredUserByOccupation(value, filteredUsers, unique_id)
             continue
-    # Implement search here!
+
     return filteredUsers
 
 def getFilteredUserByID(value, filteredUsers, unique_id):

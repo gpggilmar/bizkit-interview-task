@@ -12,19 +12,50 @@ def search():
 
 
 def search_users(args):
-    """Search users database
-
-    Parameters:
-        args: a dictionary containing the following search parameters:
-            id: string
-            name: string
-            age: string
-            occupation: string
-
-    Returns:
-        a list of users that match the search parameters
-    """
-
+    filteredUsers = []
+    unique_id = set()
+    
+    if not args:
+        return USERS
+ 
+    for key, value in args.items():
+        if(key == 'id'):
+            getFilteredUserByID(value, filteredUsers, unique_id)
+            continue
+        elif(key == 'name'):
+            getFilteredUserByName(value, filteredUsers, unique_id)
+            continue
+        elif(key == 'age'):
+            getFilteredUserByAge(value, filteredUsers, unique_id)
+            continue
+        elif(key == 'occupation'): 
+            getFilteredUserByOccupation(value, filteredUsers, unique_id)
+            continue
     # Implement search here!
+    return filteredUsers
 
-    return USERS
+def getFilteredUserByID(value, filteredUsers, unique_id):
+    for user in USERS:
+        if(user["id"] == value):
+            appendUniqueObject(user, filteredUsers, unique_id)
+
+def getFilteredUserByName(value, filteredUsers, unique_id):
+    for user in USERS:
+        if(value.lower() in user["name"].lower()):
+            appendUniqueObject(user, filteredUsers, unique_id)
+
+def getFilteredUserByAge(value, filteredUsers, unique_id):
+    for user in USERS:
+        if(abs(user["age"] - int(value)) <= 1):
+            appendUniqueObject(user, filteredUsers, unique_id)
+
+def getFilteredUserByOccupation(value, filteredUsers, unique_id):
+    for user in USERS:
+        if(value.lower() in user["occupation"].lower()):
+            appendUniqueObject(user, filteredUsers, unique_id)
+
+def appendUniqueObject(user, filteredUsers, unique_id):
+    if(user["id"] not in unique_id):
+        filteredUsers.append(user)
+        unique_id.add(user["id"])
+
